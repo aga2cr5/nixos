@@ -1,16 +1,18 @@
 {
   config,
   pkgs,
+  nixpkgs-unstable,
+  nixvim,
   ...
 }: let
-user = "olauslintinen";
-homeDir = "/home/${user}";
+  user = "olauslintinen";
+  homeDir = "/home/${user}";
   scripts = "${homeDir}/programming/scripts";
   myAliases = {
     rebuild = "(/bin/sh ${scripts}/rebuild.sh)";
     airpods = "/bin/sh ${scripts}/airpods/airpods_toggle.sh";
     movies = "vim ${homeDir}/Documents/movies";
-television = "/bin/sh ${scripts}/television_toggle.sh";
+    television = "/bin/sh ${scripts}/television_toggle.sh";
   };
 in {
   # Home Manager needs a bit of information about you and the paths it should
@@ -26,13 +28,6 @@ in {
       init.defaultBranch = "main";
     };
   };
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
@@ -40,23 +35,13 @@ in {
   home.packages = [
     # pkgs.gnomeExtensions.airpods-battery-status
     pkgs.gnomeExtensions.airpod-battery-monitor
-	pkgs.nushell
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    pkgs.nushell
+    pkgs.zsh-fzf-tab
+    pkgs.zsh-fzf-history-search
+    pkgs.kitty
+    pkgs.neovim
+    pkgs.fd
+    #nixvim.defaultPackage.${pkgs.stdenv.system}
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -67,9 +52,46 @@ in {
   home.sessionVariables = {
     # EDITOR = "emacs";
   };
+
+  # or apparently this could be imported from modules earlier and have nixvim config in a separate module
+  # check this: https://discourse.nixos.org/t/installing-and-configuring-nixvim-entirely-from-home-manager/41116/17
+  #programs.nixvim = {
+    #enable = true;
+    #package = nixvim.defaultPackage.${pkgs.stdenv.system};
+  #};
+
+  programs.kitty = {
+enable = true;
+#enableZshIntegration = true;
+
+# https://sw.kovidgoyal.net/kitty/conf/#window-layout
+  settings = {
+    shell = "zsh";
+    window_padding_width = 10;
+    scrollback_lines = 10000;
+    show_hyperlink_targets = "yes";
+    enable_audio_bell = false;
+    url_style = "none";
+    underline_hyperlinks = "never";
+    copy_on_select = "clipboard";
+    background_opacity = "0.8";
+    background_blur = 1;
+    remember_window_size = "yes";
+
+    initial_window_width = 120;
+    initial_window_height = 80;
+  };
+
+  };
+
   programs.bash = {
     enable = true;
     shellAliases = myAliases;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.zsh = {
@@ -77,6 +99,8 @@ in {
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    #for some reason this option was not recognized. it should be true by default though
+    #enableLsColors = true;
 
     shellAliases = myAliases;
     history = {
@@ -88,6 +112,11 @@ in {
       plugins = ["git"];
       theme = "robbyrussell";
     };
+
+    initExtra = ''
+      source ${pkgs.zsh-fzf-history-search}/share/fzf-history-search/fzf-history-search.plugin.zsh
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+    '';
   };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

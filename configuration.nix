@@ -7,13 +7,12 @@
   ...
 }: let
   unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
-
   #pythonEnvAirPods = pkgs.python3.withPackages (ps:
-   # with ps; [
-      # list necessary packages for this airpods script environment here
-      # bleak might need the spesific version of 0.13.0
-    #  bleak
-   # ]);
+  # with ps; [
+  # list necessary packages for this airpods script environment here
+  # bleak might need the spesific version of 0.13.0
+  #  bleak
+  # ]);
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -95,7 +94,7 @@ in {
     isNormalUser = true;
     description = "Olaus Lintinen";
     extraGroups = ["networkmanager" "wheel"];
-shell = pkgs.zsh;
+    shell = pkgs.zsh;
     packages = with pkgs; [
       #  thunderbird
     ];
@@ -131,19 +130,19 @@ shell = pkgs.zsh;
 
   # Create service for AirPods Battery Monitoring
   #systemd.services.airstatus = {
-   # description = "AirPods Battery Monitor";
-   # wantedBy = ["default.target"];
-   # path = [ pkgs.python3 ];
-    #serviceConfig = {
-     # ExecStart = "${pythonEnvAirPods}/bin/python3 /home/olauslintinen/programming/scripts/AirStatus/main.py /tmp/airstatus.out";
-      #Restart = "always";
-      #RestartSec = "3s";
-    #};
+  # description = "AirPods Battery Monitor";
+  # wantedBy = ["default.target"];
+  # path = [ pkgs.python3 ];
+  #serviceConfig = {
+  # ExecStart = "${pythonEnvAirPods}/bin/python3 /home/olauslintinen/programming/scripts/AirStatus/main.py /tmp/airstatus.out";
+  #Restart = "always";
+  #RestartSec = "3s";
+  #};
   #};
 
   # Install firefox.
   programs.firefox.enable = true;
-  programs.zsh.enable = true; 
+  programs.zsh.enable = true;
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
