@@ -56,32 +56,33 @@ in {
   # or apparently this could be imported from modules earlier and have nixvim config in a separate module
   # check this: https://discourse.nixos.org/t/installing-and-configuring-nixvim-entirely-from-home-manager/41116/17
   #programs.nixvim = {
-    #enable = true;
-    #package = nixvim.defaultPackage.${pkgs.stdenv.system};
+  #enable = true;
+  #package = nixvim.defaultPackage.${pkgs.stdenv.system};
   #};
 
   programs.kitty = {
-enable = true;
-#enableZshIntegration = true;
+    enable = true;
+    #enableZshIntegration = true;
 
-# https://sw.kovidgoyal.net/kitty/conf/#window-layout
-  settings = {
-    shell = "zsh";
-    window_padding_width = 10;
-    scrollback_lines = 10000;
-    show_hyperlink_targets = "yes";
-    enable_audio_bell = false;
-    url_style = "none";
-    underline_hyperlinks = "never";
-    copy_on_select = "clipboard";
-    background_opacity = "0.8";
-    background_blur = 1;
-    remember_window_size = "yes";
+    # https://sw.kovidgoyal.net/kitty/conf/#window-layout
+    settings = {
+      shell = "zsh";
+      window_padding_width = 10;
+      scrollback_lines = 10000;
+      show_hyperlink_targets = "yes";
+      enable_audio_bell = false;
+      url_style = "none";
+      underline_hyperlinks = "never";
+      copy_on_select = "clipboard";
+      background_opacity = "0.8";
+      background_blur = 1;
+      remember_window_size = "yes";
 
-    initial_window_width = 120;
-    initial_window_height = 80;
-  };
-
+      # these are not making difference due to remember_window_size="yes"
+      #initial_window_width = 120;
+      #initial_window_height = 80;
+      font_size = "10.0";
+    };
   };
 
   programs.bash = {
@@ -114,8 +115,9 @@ enable = true;
     };
 
     initExtra = ''
-      source ${pkgs.zsh-fzf-history-search}/share/fzf-history-search/fzf-history-search.plugin.zsh
-      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+      # just an attempt to direct error messages by directing them to /dev/null
+        source ${pkgs.zsh-fzf-history-search}/share/fzf-history-search/fzf-history-search.plugin.zsh 2>/dev/null
+        source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
     '';
   };
   # Let Home Manager install and manage itself.
