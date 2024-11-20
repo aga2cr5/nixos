@@ -11,10 +11,16 @@
   myAliases = {
     rebuild = "(/bin/sh ${scripts}/rebuild.sh)";
     airpods = "/bin/sh ${scripts}/airpods/airpods_toggle.sh";
-    movies = "vim ${homeDir}/Documents/movies";
+    movies = "nvim ${homeDir}/Documents/movies";
     television = "/bin/sh ${scripts}/television_toggle.sh";
   };
 in {
+
+  imports = [
+    ./nvim.nix
+  ];
+
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = user;
@@ -36,10 +42,15 @@ in {
     # pkgs.gnomeExtensions.airpods-battery-status
     pkgs.gnomeExtensions.airpod-battery-monitor
     pkgs.nushell
+
+    # not sure if these need to be declared here or whether it is enough that
+    # they are declared in the zsh config. this might be the issue that was
+    # fixed with piping source output to /dev/null
     pkgs.zsh-fzf-tab
     pkgs.zsh-fzf-history-search
+    
     pkgs.kitty
-    pkgs.neovim
+    #pkgs.neovim
     pkgs.fd
     #nixvim.defaultPackage.${pkgs.stdenv.system}
   ];
