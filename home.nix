@@ -18,6 +18,7 @@ in {
 
   imports = [
     ./nvim.nix
+    ./kitty.nix
   ];
 
 
@@ -38,20 +39,21 @@ in {
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    # pkgs.gnomeExtensions.airpods-battery-status
-    pkgs.gnomeExtensions.airpod-battery-monitor
-    pkgs.nushell
+  home.packages = with pkgs; [
+    # gnomeExtensions.airpods-battery-status
+    gnomeExtensions.airpod-battery-monitor
+    
+    # apparantly this is super usefull for data engineering stuff and i should
+    # take a look at it later on
+    # nushell
 
     # not sure if these need to be declared here or whether it is enough that
     # they are declared in the zsh config. this might be the issue that was
     # fixed with piping source output to /dev/null
-    pkgs.zsh-fzf-tab
-    pkgs.zsh-fzf-history-search
+    zsh-fzf-tab
+    zsh-fzf-history-search
     
-    pkgs.kitty
-    #pkgs.neovim
-    pkgs.fd
+    fd
     #nixvim.defaultPackage.${pkgs.stdenv.system}
   ];
 
