@@ -2,18 +2,21 @@
   description = "My first flake!";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
-    nixvim.url = "github:nix-community/nixvim/nixos-24.05";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    #nixpkgs.url = "nixpkgs/nixos-24.05";
+    #nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
+    #home-manager.url = "github:nix-community/home-manager/release-24.05";
+    #nixvim.url = "github:nix-community/nixvim/nixos-24.05";
   };
 
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
+    #nixpkgs-unstable,
     home-manager,
-    nixvim,
+    #nixvim,
     ...
   }: let
     lib = nixpkgs.lib;
@@ -32,8 +35,8 @@
       olauslintinen = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
-          inherit nixpkgs-unstable;
-          inherit nixvim;
+          #inherit nixpkgs-unstable;
+          #inherit nixvim;
         };
         modules = [
           ./home.nix

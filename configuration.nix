@@ -3,8 +3,7 @@
   pkgs,
   ...
 }: let
-  unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
- 
+  # unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -95,8 +94,8 @@ in {
   # installing mysql service here
   # this was needed for novaims databases course
   #services.mysql = {
-    #enable = true;
-    #package = pkgs.mariadb;
+  #enable = true;
+  #package = pkgs.mariadb;
   #};
 
   services.logind = {
@@ -117,35 +116,20 @@ in {
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
+  # enable zsh to avoid some error. probably this can also be done in home.nix or sh.nix
+  programs.zsh.enable = true;
+
   # Install firefox.
   programs.firefox.enable = true;
-  programs.zsh.enable = true;
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    #unstable.mysql-workbench
     vscode
-    telegram-desktop
     discord
-    unzip
-    unstable.mysql-workbench
-    #vim
-    btop
-    tmux
-    mattermost-desktop
-    nmap
-    git
-    signal-desktop
-    xclip
-    alejandra
-    openvpn
-    nodejs
-    keepassxc
-    postgresql
-    unstable.zed-editor
-    rclone
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -156,6 +140,8 @@ in {
     # enableSSHSupport = true;
   };
 
- system.stateVersion = "24.05"; # Did you read the comment?
+  # notice that this value can be left to 24.05 even when switching to different versions.
+  # it just marks the version from which the system was built the first time
+  system.stateVersion = "24.05"; # Did you read the comment?
   nix.settings.experimental-features = ["nix-command" "flakes"];
 }

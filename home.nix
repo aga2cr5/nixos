@@ -1,21 +1,19 @@
 {
   config,
   pkgs,
-  nixpkgs-unstable,
-  nixvim,
+  #nixpkgs-unstable,
+  #nixvim,
   ...
 }: let
   user = "olauslintinen";
   homeDir = "/home/${user}";
   scripts = "${homeDir}/programming/scripts";
 in {
-
   imports = [
     ./nvim.nix
     ./kitty.nix
     ./sh.nix
   ];
-
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -37,7 +35,7 @@ in {
   home.packages = with pkgs; [
     # gnomeExtensions.airpods-battery-status
     gnomeExtensions.airpod-battery-monitor
-    
+
     # apparantly this is super usefull for data engineering stuff and i should
     # take a look at it later on
     # nushell
@@ -47,9 +45,24 @@ in {
     # fixed with piping source output to /dev/null
     zsh-fzf-tab
     zsh-fzf-history-search
-    
+
     fd
     #nixvim.defaultPackage.${pkgs.stdenv.system}
+
+    telegram-desktop
+    unzip
+    btop
+    tmux
+    mattermost-desktop
+    nmap
+    git
+    signal-desktop
+    xclip
+    alejandra
+    openvpn
+    nodejs
+    keepassxc
+    postgresql
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -72,7 +85,6 @@ in {
     enable = true;
     enableZshIntegration = true;
   };
-
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
