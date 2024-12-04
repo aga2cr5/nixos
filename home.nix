@@ -1,8 +1,6 @@
 {
   config,
   pkgs,
-  #nixpkgs-unstable,
-  #nixvim,
   ...
 }: let
   user = "olauslintinen";
@@ -33,7 +31,6 @@ in {
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    # gnomeExtensions.airpods-battery-status
     gnomeExtensions.airpod-battery-monitor
 
     # apparantly this is super usefull for data engineering stuff and i should
@@ -47,7 +44,6 @@ in {
     zsh-fzf-history-search
 
     fd
-    #nixvim.defaultPackage.${pkgs.stdenv.system}
 
     telegram-desktop
     unzip
@@ -63,6 +59,8 @@ in {
     nodejs
     keepassxc
     postgresql
+
+    # move vscode to its own module and move all configs related to it to nix file
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -74,8 +72,6 @@ in {
     # EDITOR = "emacs";
   };
 
-  # or apparently this could be imported from modules earlier and have nixvim config in a separate module
-  # check this: https://discourse.nixos.org/t/installing-and-configuring-nixvim-entirely-from-home-manager/41116/17
   #programs.nixvim = {
   #enable = true;
   #package = nixvim.defaultPackage.${pkgs.stdenv.system};
