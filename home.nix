@@ -8,7 +8,7 @@
   scripts = "${homeDir}/programming/scripts";
 in {
   imports = [
-    ./nvim.nix
+#    ./nvim
     ./kitty.nix
     ./sh.nix
   ];
@@ -40,11 +40,13 @@ in {
     # not sure if these need to be declared here or whether it is enough that
     # they are declared in the zsh config. this might be the issue that was
     # fixed with piping source output to /dev/null
+    python3
+    ripgrep
     zsh-fzf-tab
     zsh-fzf-history-search
-
+    gcc
     fd
-
+    tree
     telegram-desktop
     unzip
     btop

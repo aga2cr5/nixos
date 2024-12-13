@@ -9,6 +9,7 @@ let
     airpods = "/bin/sh ${scripts}/airpods/airpods_toggle.sh";
     movies = "nvim ${homeDir}/Documents/movies";
     television = "/bin/sh ${scripts}/television_toggle.sh";
+    # add a script here called copy to copy files to clipboard. create this with xclip
   };
 in {
   programs.bash = {

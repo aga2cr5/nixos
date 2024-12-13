@@ -31,9 +31,9 @@
 
     homeConfigurations = {
       olauslintinen = home-manager.lib.homeManagerConfiguration {
+        #this was originally the only one
         inherit pkgs;
         extraSpecialArgs = {
-          #inherit nixpkgs-unstable;
         };
         modules = [
           ./home.nix
