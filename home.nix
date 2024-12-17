@@ -13,6 +13,10 @@ in {
     ./sh.nix
   ];
 
+nixpkgs.overlays = [
+    (import ./mattermost-desktop-overlay.nix)
+  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = user;
