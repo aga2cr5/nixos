@@ -65,7 +65,7 @@ nixpkgs.overlays = [
     nodejs
     keepassxc
     postgresql
-
+    element-desktop
     # move vscode to its own module and move all configs related to it to nix file
   ];
 
